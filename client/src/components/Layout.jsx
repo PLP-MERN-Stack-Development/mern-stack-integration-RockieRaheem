@@ -66,7 +66,7 @@ const Layout = ({ children }) => {
 
       <footer className="footer">
         <div className="container">
-          <p>&copy; 2024 MERN Blog. All rights reserved.</p>
+          <p>&copy; 2025 MERN Blog by Raheem. All rights reserved.</p>
         </div>
       </footer>
     </div>

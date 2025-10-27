@@ -76,6 +76,7 @@ const PostForm = () => {
         tagsArray.forEach((tag) => data.append("tags[]", tag));
       }
 
+      // Only append featuredImage if a file is selected
       if (featuredImage) {
         data.append("featuredImage", featuredImage);
       }

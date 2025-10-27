@@ -1,40 +1,40 @@
 // Post.js - Mongoose model for blog posts
 
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const PostSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, 'Please provide a title'],
+      required: [true, "Please provide a title"],
       trim: true,
-      maxlength: [100, 'Title cannot be more than 100 characters'],
+      maxlength: [100, "Title cannot be more than 100 characters"],
     },
     content: {
       type: String,
-      required: [true, 'Please provide content'],
+      required: [true, "Please provide content"],
     },
     featuredImage: {
       type: String,
-      default: 'default-post.jpg',
+      default: "default-post.jpg",
     },
     slug: {
       type: String,
-      required: true,
       unique: true,
+      index: true,
     },
     excerpt: {
       type: String,
-      maxlength: [200, 'Excerpt cannot be more than 200 characters'],
+      maxlength: [200, "Excerpt cannot be more than 200 characters"],
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category',
+      ref: "Category",
       required: true,
     },
     tags: [String],
@@ -50,7 +50,7 @@ const PostSchema = new mongoose.Schema(
       {
         user: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'User',
+          ref: "User",
         },
         content: {
           type: String,
@@ -67,21 +67,35 @@ const PostSchema = new mongoose.Schema(
 );
 
 // Create slug from title before saving
-PostSchema.pre('save', function (next) {
-  if (!this.isModified('title')) {
+PostSchema.pre("save", async function (next) {
+  // Only generate slug if it's a new document or title has changed
+  if (!this.isModified("title") && this.slug) {
     return next();
   }
-  
-  this.slug = this.title
+
+  // Generate base slug
+  let baseSlug = this.title
     .toLowerCase()
-    .replace(/[^\w ]+/g, '')
-    .replace(/ +/g, '-');
-    
+    .replace(/[^\w ]+/g, "")
+    .replace(/ +/g, "-");
+
+  // Ensure slug is unique
+  let slug = baseSlug;
+  let counter = 1;
+
+  while (
+    await mongoose.model("Post").findOne({ slug, _id: { $ne: this._id } })
+  ) {
+    slug = `${baseSlug}-${counter}`;
+    counter++;
+  }
+
+  this.slug = slug;
   next();
 });
 
 // Virtual for post URL
-PostSchema.virtual('url').get(function () {
+PostSchema.virtual("url").get(function () {
   return `/posts/${this.slug}`;
 });
 
@@ -97,4 +111,4 @@ PostSchema.methods.incrementViewCount = function () {
   return this.save();
 };
 
-module.exports = mongoose.model('Post', PostSchema); 
+module.exports = mongoose.model("Post", PostSchema);

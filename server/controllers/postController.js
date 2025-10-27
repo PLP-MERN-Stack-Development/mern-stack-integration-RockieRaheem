@@ -88,7 +88,20 @@ const createPost = async (req, res, next) => {
     // Handle featured image from file upload
     if (req.file) {
       req.body.featuredImage = req.file.filename;
+    } else {
+      // Remove featuredImage from body if it exists as empty value
+      delete req.body.featuredImage;
     }
+
+    // Handle tags array
+    if (req.body["tags[]"]) {
+      req.body.tags = Array.isArray(req.body["tags[]"])
+        ? req.body["tags[]"]
+        : [req.body["tags[]"]];
+      delete req.body["tags[]"];
+    }
+
+    console.log("Creating post with data:", JSON.stringify(req.body, null, 2));
 
     const post = await Post.create(req.body);
 
@@ -101,6 +114,15 @@ const createPost = async (req, res, next) => {
       data: post,
     });
   } catch (error) {
+    // Provide more detailed error message
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        success: false,
+        error: Object.values(error.errors)
+          .map((err) => err.message)
+          .join(", "),
+      });
+    }
     next(error);
   }
 };
@@ -130,6 +152,17 @@ const updatePost = async (req, res, next) => {
     // Handle featured image from file upload
     if (req.file) {
       req.body.featuredImage = req.file.filename;
+    } else {
+      // Remove featuredImage from body if it exists as empty value
+      delete req.body.featuredImage;
+    }
+
+    // Handle tags array
+    if (req.body["tags[]"]) {
+      req.body.tags = Array.isArray(req.body["tags[]"])
+        ? req.body["tags[]"]
+        : [req.body["tags[]"]];
+      delete req.body["tags[]"];
     }
 
     post = await Post.findByIdAndUpdate(req.params.id, req.body, {
@@ -144,6 +177,15 @@ const updatePost = async (req, res, next) => {
       data: post,
     });
   } catch (error) {
+    // Provide more detailed error message
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        success: false,
+        error: Object.values(error.errors)
+          .map((err) => err.message)
+          .join(", "),
+      });
+    }
     next(error);
   }
 };

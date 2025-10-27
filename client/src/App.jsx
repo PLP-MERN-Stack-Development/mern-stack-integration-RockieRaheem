@@ -58,7 +58,12 @@ const AppRoutes = () => {
 
 function App() {
   return (
-    <Router>
+    <Router
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       <AuthProvider>
         <AppRoutes />
       </AuthProvider>
