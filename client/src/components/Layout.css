@@ -1,0 +1,78 @@
+/* Layout.css */
+
+.navbar {
+  background-color: var(--white);
+  box-shadow: var(--shadow-md);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  color: var(--primary-color);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbar-brand h2 {
+  margin: 0;
+}
+
+.navbar-menu {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+  align-items: center;
+  margin: 0;
+}
+
+.navbar-menu a {
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navbar-menu a:hover {
+  color: var(--primary-color);
+}
+
+.navbar-user {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.main-content {
+  min-height: calc(100vh - 140px);
+  padding: 2rem 0;
+}
+
+.footer {
+  background-color: var(--dark-bg);
+  color: var(--white);
+  padding: 1.5rem 0;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.footer p {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .navbar-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .navbar-menu {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
