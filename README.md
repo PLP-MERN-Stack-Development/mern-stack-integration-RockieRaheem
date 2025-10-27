@@ -391,28 +391,10 @@ Authorization: Bearer <token>
 - Clean and intuitive user interface
 - Smooth animations and transitions
 
-## 📸 Screenshots
+## 📸 Screenshot
 
 ### Home Page
-
-![Home Page](./screenshots/home.png)
-_The main landing page displaying all blog posts with filtering options_
-
-### Post Detail
-
-![Post Detail](./screenshots/post-detail.png)
-_Individual post view with comments section_
-
-### Create Post
-
-![Create Post](./screenshots/create-post.png)
-_Post creation form with image upload_
-
-### Login
-
-![Login](./screenshots/login.png)
-_User authentication page_
-
+<img width="1317" height="848" alt="Image" src="https://github.com/user-attachments/assets/ccda2245-ec00-420a-b883-a19f42bea758" />
 ## 🧪 Testing
 
 ### Manual Testing Checklist
